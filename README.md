@@ -1,47 +1,52 @@
 # Remote-Controlled-Car 🚗
 
-This repository documents the design and development process of a **Remote-Controlled Car** project focused on integrating hardware control with software logic. The source code for control logic and firmware is stored in a separate private repository for security and maintainability purposes.
+This repository documents the design and development process of a Remote-Controlled Car project. **Codebase is private. Please reach out if you'd like access**.
 
 ## 🧠 Project Overview
 
-This RC car combines real-time control with intelligent behavior using a microcontroller and a wireless interface. The project includes:
-- Motor control system
-- Remote wireless communication (Bluetooth / Wi-Fi)
-- Embedded programming
-- Sensor integration (e.g. obstacle detection)
+This RC car has the following components:
+- A 20x20 environment
+- A user-controlled car
+- Two rectangular obstacles
+- A tracking window tracking the movement of the car
+
+What it can do:
+- Car movement
+- Brings the car to within the environment if it is out-of-bound
+- Object tracking
+- Position updates / crush feedback
+- Object tracking
+
 
 ## 🔧 Technologies & Tools
 
-- **Hardware:** Arduino / ESP32 / Raspberry Pi (based on configuration)
-- **Languages:** C / C++ / MicroPython
-- **Communication:** Bluetooth / Wi-Fi
-- **Sensors:** Ultrasonic, Infrared (optional)
+C, Bash script
 
-## 📁 Repository Structure
+## 🏃:How to use it
 
-This public repo contains:
-- Project description
-- Hardware wiring diagrams
-- System architecture & design decisions
-- Demonstration videos / photos
-- Setup and usage instructions (if applicable)
+Input commands to drive the car, track movement, and avoid obstacles in real-time.
 
-> ⚠️ **Note:** Source code is maintained in a private repository. Contact the project owner if you're interested in collaboration or viewing the code.
+Input Format:
 
-## 📸 Media
+- ✅ One command per line.
+- ✅ Valid commands:
+  - `D` – **Done** driving, ends the session.
+  - `[DIRECTION] [DISTANCE]` – Drives in the given direction.
+    - Directions: `N` = North, `S` = South, `E` = East, `W` = West  
+    - Distance: Any integer within the MAX-TRAVEL-DISTANCE (positive, zero, or negative)
 
-![Car in action](assets/demo.gif)  
-*Remote-controlled car navigating obstacles*
+Examples:
 
-## 🤝 Contributions
+- `N 3` → Move 3 units north (if possible)
+- `E 8` → Move up to the max allowed distance east (e.g., capped at 5 if `MAX_TRAVEL_DISTANCE = 5`)
+- `S -4` → Interpreted as moving 4 units north
 
-If you’re interested in contributing to the documentation or collaborating on similar projects, feel free to open an issue or contact me directly.
+Output Behavior:
 
-## 📬 Contact
-
-- GitHub: [yourusername](https://github.com/yourusername)
-- Email: yourname@example.com (optional)
-
----
-
-*Made with passion for embedded systems and robotics.*
+🖨 **Always prints the car's position** after a drive command, even if no movement occurred
+- 🚧 If movement is blocked by an obstacle:
+- - Not moving: Obstacle in way.
+- 🧱 If car tries to go outside the boundary:
+- - A **crash is reported** and the session ends
+- 🗺 If car moves outside the tracking window:
+- - The tracking window is updated
